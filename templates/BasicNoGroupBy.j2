@@ -1,0 +1,12 @@
+  template-id: "SNMPtemplate1"
+  vars: {
+    "measurement": {"type" : "string", "value" : "{{item.1.nombre}}" },
+    "name": {"type" : "string", "value" : "{{item.1.nombre}}-{{item.0.dispositivo}}-{{item.0.host}}" },
+    "groups": {"type": "list", "value": [{"type":"string", "value":"host"}]},
+    "field": {"type" : "string", "value" : "{{item.1.nombre}}" },
+    "warn": {"type" : "lambda", "value" : "\"last\" > {{item.1.warn}}" },
+    "crit": {"type" : "lambda", "value" : "\"last\" > {{item.1.crit}}" },
+    "warni": {"type" : "string", "value" : "{{item.1.warn}}" },
+    "criti": {"type" : "string", "value" : "{{item.1.crit}}" },
+    "whereFilter": {"type" : "lambda", "value" : "(\"host\" == '{{item.0.host}}')" }
+    }

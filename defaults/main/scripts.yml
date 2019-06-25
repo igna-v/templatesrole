@@ -1,0 +1,20 @@
+kapacitor_scripts:
+  - host: OSPOCE
+    dispositivo: Firewall-fortigate
+    alarmas:
+      - instancia: port14
+        nombre: operStatus
+        crit: 3
+        warn: 2
+      - instancia: port12
+        nombre: operStatus
+        crit: 3
+        warn: 2
+
+  - host: OSPOCE
+    dispositivo: Firewall-fortigate
+    alarmas:
+      - instancia: cpu
+        nombre: cpu
+        crit: 30
+        warn: 20
