@@ -1,6 +1,6 @@
   - name: "tickscripts"
     template:
-      src: "BasicNoGroupBy.j2"
+      src: "TemplatedNoGroupBy.j2"
       dest: "/a/{{item.0.dispositivo}}-{{item.1.instancia}}.yaml"
     with_subelements:
      - "{{ kapacitor_scripts }}"

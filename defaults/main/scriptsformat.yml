@@ -1,0 +1,7 @@
+template_match:
+  - nombre: Switch-fortigate
+    alarmas:
+      - nombre: cpu
+        tabla: FORTIGATE-system
+        campo: fgSysCpuUsage
+        groupby: [{"type":"string", "value":"host"},{"type":"string", "value":"nombre"}]

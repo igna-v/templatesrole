@@ -1,0 +1,14 @@
+{% for i in template_match %}{% if item.0.dispositivo == i.nombre %}{% for j in i.alarmas %}{% if item.1.nombre == j.nombre %}  template-id: "SNMPtemplate1"
+  vars: {
+    "measurement": {"type" : "string", "value" : "{{j.tabla}}" },
+    "name": {"type" : "string", "value" : "{{item.1.nombre}}-{{item.0.dispositivo}}-{{item.0.host}}" },
+    "groups": {"type": "list", "value": {{j.groupby}} },
+    "field": {"type" : "string", "value" : "{{j.campo}}" },
+    "warn": {"type" : "lambda", "value" : "\"last\" > {{item.1.warn}}" },
+    "crit": {"type" : "lambda", "value" : "\"last\" > {{item.1.crit}}" },
+    "warni": {"type" : "string", "value" : "{{item.1.warn}}" },
+    "criti": {"type" : "string", "value" : "{{item.1.crit}}" },
+    "whereFilter": {"type" : "lambda", "value" : "(\"host\" == '{{item.0.host}}')" }
+    }
+{% endif %}{% endfor %}{% endif %}
+{% endfor %}

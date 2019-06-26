@@ -12,7 +12,7 @@ kapacitor_scripts:
         warn: 2
 
   - host: OSPOCE
-    dispositivo: Firewall-fortigate
+    dispositivo: Switch-fortigate
     alarmas:
       - instancia: cpu
         nombre: cpu
