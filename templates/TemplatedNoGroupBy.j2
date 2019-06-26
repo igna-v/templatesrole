@@ -2,7 +2,7 @@
   vars: {
     "measurement": {"type" : "string", "value" : "{{j.tabla}}" },
     "name": {"type" : "string", "value" : "{{item.1.nombre}}-{{item.0.dispositivo}}-{{item.0.host}}" },
-    "groups": {"type": "list", "value": {{j.groupby}} },
+    "groups": {"type": "list", "value": [{ {% for l in j.groupby %}{"type":"{{l.type}}", "value":"{{l.value}}" }{{ "," if not loop.last else ""}} {% endfor %}  }] },
     "field": {"type" : "string", "value" : "{{j.campo}}" },
     "warn": {"type" : "lambda", "value" : "\"last\" > {{item.1.warn}}" },
     "crit": {"type" : "lambda", "value" : "\"last\" > {{item.1.crit}}" },
