@@ -1,20 +1,311 @@
 kapacitor_scripts:
   - host: OSPOCE
-    dispositivo: Firewall-fortigate
+    dispositivo: FW-CMM
+    modelo: Firewall-fortigate
     alarmas:
-      - instancia: port14
-        nombre: operStatus
-        crit: 3
-        warn: 2
-      - instancia: port12
-        nombre: operStatus
-        crit: 3
-        warn: 2
+      - nombre: mem
+        instancia: mem
+        crit: 90
+        warn: 80
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+      - nombre: status-vpn
+        instancia: OSPOCE_HQ
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: OSPOCE_Quilmes
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: Rapela
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: VPNAzure
+        crit: 1
+        warn: 0
+
+
 
   - host: OSPOCE
-    dispositivo: Switch-fortigate
+    dispositivo: FW-CMQ
+    modelo: Firewall-fortigate
     alarmas:
-      - instancia: cpu
-        nombre: cpu
-        crit: 30
-        warn: 20
+      - nombre: mem
+        instancia: mem
+        crit: 90
+        warn: 80
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+      - nombre: status-vpn
+        instancia: Azure
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: OSPOCE_CMM
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: OSPOCE_HQ
+        crit: 1
+        warn: 0
+
+  - host: OSPOCE
+    dispositivo: FW-MITRE
+    modelo: Firewall-fortigate
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 90
+        warn: 80
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+      - nombre: status-vpn
+        instancia: Monserrat
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aAvellaneda
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aBelgrano
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aCordobaIP
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: Monserrat
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aEstrategasIP
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aFideisaludIP
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aLomas
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aRamosMejia
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aRosarioIP
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aSanIsidro
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: Quilmes
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: aZarate
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: synchro
+        crit: 1
+        warn: 0
+      - nombre: status-vpn
+        instancia: VPNAzure
+        crit: 1
+        warn: 0
+      - nombre: status-isport
+        instancia: 9
+        crit: 2
+        warn: 0
+      - nombre: status-isport
+        instancia: 2
+        crit: 2
+        warn: 0
+      - nombre: status-isport
+        instancia: 4
+        crit: 2
+        warn: 0
+
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1523_CC.41
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1523_SS.11
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1553_1P.23
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1553_EP.22
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1553_PB.21
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1563.51
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Mitre_1571.52
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_15.61
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_1.72
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_17.63
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_21.81
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_3.71
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80
+
+  - host: OSPOCE
+    dispositivo: Switch-Piedad_9.62
+    modelo: Switch-HP
+    alarmas:
+      - nombre: mem
+        instancia: mem
+        crit: 2000
+        warn: 1000
+      - nombre: cpu
+        instancia: cpu
+        crit: 90
+        warn: 80

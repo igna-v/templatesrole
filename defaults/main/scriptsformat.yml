@@ -1,11 +1,98 @@
 template_match:
-  - nombre: Switch-fortigate
+  - nombre: Firewall-fortigate
     alarmas:
       - nombre: cpu
+        comparador: ">"
         tabla: FORTIGATE-system
         campo: fgSysCpuUsage
         groupby:
-         - type: string
-           value: host
-         - type: string
-           value: nombre
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
+      - nombre: mem
+        comparador: ">"
+        tabla: FORTIGATE-system
+        campo: fgSysMemUsage
+        groupby:
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
+      - nombre: status-vpn
+        comparador: ==
+        tabla: FORTIGATE-VpnTunTable
+        campo: fgVpnTunEntStatus
+        groupby:
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+          - type: string
+            value: fgVpnTunEntPhase1Name
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
+          - field: fgVpnTunEntPhase1Name
+            value: "{{item.1.instancia}}"
+      - nombre: status-isport
+        comparador: ==
+        tabla: interface
+        campo: ifOperStatus
+        groupby:
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+          - type: string
+            value: ifIndex
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
+          - field: ifIndex
+            value: "{{item.1.instancia}}"
+
+  - nombre: Switch-HP
+    alarmas:
+      - nombre: mem
+        comparador: "<"
+        tabla: HP-system-mem
+        campo: hpLocalMemFreeBytes
+        groupby:
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
+      - nombre: cpu
+        comparador: ">"
+        tabla: HP-system-cpu
+        campo: hpSwitchCpuStat
+        groupby:
+          - type: string
+            value: host
+          - type: string
+            value: nombre
+        where:
+          - field: host
+            value: "{{item.0.host}}"
+          - field: nombre
+            value: "{{item.0.dispositivo}}"
