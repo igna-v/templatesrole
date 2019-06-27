@@ -1,8 +1,8 @@
 {% for i in template_match %}{% if item.0.modelo == i.nombre %}{% for j in i.alarmas %}{% if item.1.nombre == j.nombre %}  template-id: "SNMPtemplate1"
   vars: {
     "measurement": {"type" : "string", "value" : "{{j.tabla}}" },
-    "name": {"type" : "string", "value" : "{{item.1.nombre}}-{{item.0.dispositivo}}-{{item.0.host}}" },
-    "groups": {"type": "list", "value": [{ {% if j.groupby is defined %}{% for l in j.groupby %}{"type":"{{l.type}}", "value":"{{l.value}}" }{{ "," if not loop.last else ""}} {% endfor %}{% endif %}  }] },
+    "name": {"type" : "string", "value" : "{{item.0.dispositivo}}-{{item.1.nombre}}" },
+    "groups": {"type": "list", "value": [ {% if j.groupby is defined %}{% for l in j.groupby %}{"type":"{{l.type}}", "value":"{{l.value}}" }{{ "," if not loop.last else ""}} {% endfor %}{% endif %}  ] },
     "field": {"type" : "string", "value" : "{{j.campo}}" },
     "warn": {"type" : "lambda", "value" : "\"last\" {{j.comparador}} {{item.1.warn}}" },
     "crit": {"type" : "lambda", "value" : "\"last\" {{j.comparador}} {{item.1.crit}}" },
