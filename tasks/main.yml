@@ -1,7 +1,14 @@
   - name: "tickscripts"
     template:
       src: "TemplatedNoGroupBy.j2"
-      dest: "/a/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
+      dest: "/srv/sensor/kapacitor/vol/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
+    with_subelements:
+     - "{{ kapacitor_scripts }}"
+     - alarmas
+
+
+  - name: "enable tickscripts"
+    shell: "docker exec -i kapacitor.1.$(docker service ps -f 'name=kapacitor.1' kapacitor -q --no-trunc | head -n1) kapacitor define {{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}} -file /opt/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
     with_subelements:
      - "{{ kapacitor_scripts }}"
      - alarmas
