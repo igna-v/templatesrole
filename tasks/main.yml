@@ -1,4 +1,13 @@
-  - name: "tickscripts"
+- name: get file stat to be able to perform check in the following task
+  stat: path=/srv/sensor/VolumenCompartido/networking.yml
+  register: file
+
+- name: copy file if it exists
+  copy: src=/srv/sensor/VolumenCompartido/networking.yml dest=/home/synchro/NewSTDC.Kapacitor/controlservice/tickscripts/roles/templatesrole/defaults/main/a.yml
+  when: file.stat.exists
+
+
+- name: "tickscripts"
     template:
       src: "TemplatedNoGroupBy.j2"
       dest: "/srv/sensor/kapacitor/vol/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
