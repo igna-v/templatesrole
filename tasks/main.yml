@@ -1,23 +1,65 @@
-- name: get file stat to be able to perform check in the following task
-  stat: path=/srv/sensor/VolumenCompartido/networking.yml
-  register: file
+  - name: get file stat to be able to perform check in the following task
+    stat: path=/srv/sensor/VolumenCompartido/networking.yml
+    register: file
 
-- name: copy file if it exists
-  copy: src=/srv/sensor/VolumenCompartido/networking.yml dest=/home/synchro/NewSTDC.Kapacitor/controlservice/tickscripts/roles/templatesrole/defaults/main/a.yml
-  when: file.stat.exists
+  - name: copy file if it exists
+    copy: src=/srv/sensor/VolumenCompartido/networking.yml dest=/home/synchro/NewSTDC.Kapacitor/controlservice/tickscripts/roles/templatesrole/defaults/main/a.yml
+    when: file.stat.exists
 
 
-- name: "tickscripts"
+  - name: "stream tickscripts"
     template:
       src: "TemplatedNoGroupBy.j2"
       dest: "/srv/sensor/kapacitor/vol/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
     with_subelements:
      - "{{ kapacitor_scripts }}"
      - alarmas
+    when: script_type == 'stream'
 
-
-  - name: "enable tickscripts"
-    shell: "docker exec -i kapacitor.1.$(docker service ps -f 'name=kapacitor.1' kapacitor -q --no-trunc | head -n1) kapacitor define {{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}} -file /opt/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
+  - name: "bathc tickscripts"
+    template:
+      src: "TemplatedBatch.j2"
+      dest: "/srv/sensor/kapacitor/vol/var/tasks/{{item.0.dispositivo}}-{{item.1.nombre}}-{{item.1.instancia}}.yaml"
     with_subelements:
      - "{{ kapacitor_scripts }}"
      - alarmas
+    when: script_type == 'batch'
+
+
+  - name: "busco los archivos que se generaron"
+    find:
+      paths: "/srv/sensor/kapacitor/vol/var/tasks/"
+    register: find_result
+
+  - name: "check for non found models"
+    stat:
+      path: "/srv/sensor/kapacitor/vol/var/tasks/{{item.path}}.yaml"
+    with_items: "{{find_result.files}}"
+    register: a
+
+  - name: "create log for not found scripts"
+    copy:
+     content: "Para los tickscripts: \n{% for item in a.results  %}{% if item.item.size < 20 %}     - {{item.item.path | basename}}\n{%endif%}{% endfor %}no se encontro un modelo/instancia correctos \n"
+     dest: "notFoundScripts.log"
+#    debug:
+#        msg: "Para el tickscript: {{item.item.path | basename}} no se encontro un modelo/instancia correctos"
+#    when: item.item.size < 20
+#    with_items: "{{a.results }}"
+
+  - name: "remove empty files"
+    file:
+        path: "{{item.item.path}}"
+        state: absent
+    when: item.item.size < 20
+    with_items: "{{a.results}}"
+
+  - name: "define tickscripts"
+    shell: "docker exec -i kapacitor.1.$(docker service ps -f 'name=kapacitor.1' kapacitor -q --no-trunc | head -n1) kapacitor define {{( (item.item.path | basename) | splitext)[0]}} -file /opt/tasks/{{item.item.path | basename}}"
+    when: item.item.size > 20
+    with_items: "{{a.results}}"
+
+
+  - name: "enable tickscripts"
+    shell: "docker exec -i kapacitor.1.$(docker service ps -f 'name=kapacitor.1' kapacitor -q --no-trunc | head -n1) kapacitor enable {{( (item.item.path | basename) | splitext)[0]}}"
+    when: item.item.size > 20
+    with_items: "{{a.results}}"
