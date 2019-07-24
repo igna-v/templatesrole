@@ -1,0 +1,14 @@
+{% for i in template_match %}{% if item.0.modelo == i.nombre %}{% for j in i.alarmas %}{% if item.1.nombre == j.nombre %}  template-id: "TemplateBatch"
+  vars: {
+    "measurement": {"type" : "string", "value" : "{{j.tabla}}" },
+    "name": {"type" : "string", "value" : "{{item.0.dispositivo}}-{{item.1.nombre}}" },
+    "groups": {"type": "list", "value": [ {% if j.groupby is defined %}{% for l in j.groupby %}{"type":"{{l.type}}", "value":"{{l.value}}" }{{ "," if not loop.last else ""}} {% endfor %}{% endif %}  ] },
+    "field": {"type" : "string", "value" : "{{j.campo}}" },
+    "warn": {"type" : "lambda", "value" : "\"mean\" {{j.comparador}} {{item.1.warn}}" },
+    "crit": {"type" : "lambda", "value" : "\"mean\" {{j.comparador}} {{item.1.crit}}" },
+    "warni": {"type" : "string", "value" : "{{item.1.warn}}" },
+    "criti": {"type" : "string", "value" : "{{item.1.crit}}" },
+    "whereFilter": {"type" : "string", "value" : "{% if j.where is defined %}({% for h in j.where %} \"{{h.field}}\" = '{{h.value}}' {{ "AND" if not loop.last else ""}}{% endfor %}){% endif %}" }
+    }
+{% endif %}{% endfor %}{% endif %}
+{% endfor %}
