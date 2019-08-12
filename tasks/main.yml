@@ -63,3 +63,10 @@
     shell: "docker exec -i kapacitor.1.$(docker service ps -f 'name=kapacitor.1' kapacitor -q --no-trunc | head -n1) kapacitor enable {{( (item.item.path | basename) | splitext)[0]}}"
     when: item.item.size > 20
     with_items: "{{a.results}}"
+    
+  - name: "cq"
+    shell: "docker exec -i influxdb.1.$(docker service ps -f 'name=influxdb.1' influxdb -q --no-trunc | head -n1) influx -execute '{% for i in template_match %}{% if item.0.modelo == i.nombre %}{% for j in i.alarmas %}{% if item.1.nombre == j.nombre %} CREATE CONTINUOUS QUERY {{j.campo}} ON test BEGIN SELECT mean({{j.campo}}) as {{j.campo}} INTO anual.ano.{{j.campo}}anual FROM test.semana.{{j.tabla}} GROUP BY time(1h), {% if j.groupby is defined %}{% for l in j.groupby %} {{l.value}} {{ ',' if not loop.last else ''}} {% endfor %}{% endif %} END' {% endif %}{% endfor %}{% endif %}{% endfor %} -database=test -username root -password topo01"
+    with_subelements:
+     - "{{ kapacitor_scripts }}"
+     - alarmas
+
